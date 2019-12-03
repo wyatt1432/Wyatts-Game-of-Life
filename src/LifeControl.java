@@ -132,17 +132,20 @@ public class LifeControl extends JPanel implements ActionListener, SpotListener 
 			}
 		}
 		for (Spot s : _board) {
-			int totalAlive = 0;
-			for (int i=-1; i<=1; i++) {
-				for (int j=-1; j<=1; j++) {
-					Spot spotReturned;
-					spotReturned = smartFind(s.getSpotX() + i, s.getSpotY() + j, s);
-					if (spotReturned != s && spotReturned.isSpotAlive()) {
-						totalAlive++;
+			s.setSpotAliveNeighbors(0);
+		}
+		for (Spot s : _board) {
+			if (s.isSpotAlive()) {
+				for (int i=-1; i<=1; i++) {
+					for (int j=-1; j<=1; j++) {
+						Spot spotReturned;
+						spotReturned = smartFind(s.getSpotX() + i, s.getSpotY() + j, s);
+						if (spotReturned != s) {
+							spotReturned.setSpotAliveNeighbors((spotReturned.getSpotAliveNeighbors() + 1));
+						}
 					}
 				}
 			}
-			s.setSpotAliveNeighbors(totalAlive);
 		}
 	}
 	
@@ -151,18 +154,15 @@ public class LifeControl extends JPanel implements ActionListener, SpotListener 
 			if (s.isSpotAlive()) {
 				if(s.getSpotAliveNeighbors() < surviveMin || s.getSpotAliveNeighbors() > surviveMax) {
 					s.setSpotAlive(false);
+					s.setBackground(Color.WHITE);
+					s.setSpotColor(Color.WHITE);
 				}
 			} else {
 				if (s.getSpotAliveNeighbors() >= birthMin && s.getSpotAliveNeighbors() <= birthMax) {
 					s.setSpotAlive(true);
+					s.setBackground(Color.BLACK);
+					s.setSpotColor(Color.BLACK);
 				}
-			}
-			if (s.isSpotAlive() == false) {
-				s.setBackground(Color.WHITE);
-				s.setSpotColor(Color.WHITE);
-			} else {
-				s.setBackground(Color.BLACK);
-				s.setSpotColor(Color.BLACK);
 			}
 		}
 	}
@@ -335,7 +335,6 @@ public class LifeControl extends JPanel implements ActionListener, SpotListener 
 
 
 	public void resetGame() {
-		
 		for (Spot s : _board) {
 			s.clearSpot();
 			s.unhighlightSpot();
