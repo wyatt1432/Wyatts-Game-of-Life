@@ -1,4 +1,7 @@
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -36,6 +39,7 @@ public class LifeView {
 		int survivalMaximum = 3;
 		int birthMinimum = 3;
 		int birthMaximum = 3;
+		long time = 500;
 		while (done == false) {
 			String defaultString = JOptionPane.showInputDialog("Would you like to use the default settings? (Type 'Yes' or 'No')");
 			System.out.println(defaultString);
@@ -48,13 +52,22 @@ public class LifeView {
 				birthMinimum = Integer.parseInt(birthMinimumString);
 				String birthMaximumString = JOptionPane.showInputDialog("What would you like the birth maximum to be?");
 				birthMaximum = Integer.parseInt(birthMaximumString);
+				String timeString = JOptionPane.showInputDialog("What would you like the auto mode update time between frames in miliseconds to be?");
+				time = Integer.parseInt(timeString);
 				done = true;
 			} else if (defaultString.contentEquals("Yes")) {
 				done = true;
 			}
 		}
 		
-		LifeControl ttt = new LifeControl(height, width, survivalMinimum, survivalMaximum, birthMinimum, birthMaximum);
+		if (time < 10) {
+			time = 10;
+		}
+		if (time > 1000) {
+			time = 1000;
+		}
+		
+		LifeControl ttt = new LifeControl(time, height, width, survivalMinimum, survivalMaximum, birthMinimum, birthMaximum);
 		top_panel.add(ttt, BorderLayout.CENTER);
 
 

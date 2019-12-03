@@ -22,8 +22,10 @@ public class LifeControl extends JPanel implements ActionListener, SpotListener 
 	private int birthMin = 3;
 	private int birthMax = 3;
 	private boolean torusMode = false;
+	public boolean auto = false;
+	private long time;
 		
-	LifeControl(int height, int width, int surviveMin, int surviveMax, int birthMin, int birthMax) {
+	LifeControl(long time, int height, int width, int surviveMin, int surviveMax, int birthMin, int birthMax) {
 		/* Create SpotBoard and message label. */
 		
 		_board = new JSpotBoard(height,width);
@@ -42,13 +44,21 @@ public class LifeControl extends JPanel implements ActionListener, SpotListener 
 
 		/* Create subpanel for message area and reset button. */
 		
+		RunnableManager manager = new RunnableManager(this, time);
+		
 		JPanel message_panel = new JPanel();
 		message_panel.setLayout(new BorderLayout());
-		message_panel.add(_message, BorderLayout.WEST);
+		message_panel.add(_message, BorderLayout.CENTER);
 		JButton torus_button = new JButton("Torus Mode");
 		torus_button.addActionListener(this);
 		torus_button.setActionCommand("torus");
+		
 		message_panel.add(torus_button, BorderLayout.EAST);
+		JButton auto_button = new JButton("Auto Mode");
+		
+		auto_button.addActionListener(manager);
+		auto_button.setActionCommand("auto");
+		message_panel.add(auto_button, BorderLayout.WEST);
 		
 		JPanel button_panel = new JPanel();
 		button_panel.setLayout(new BorderLayout());
@@ -57,6 +67,7 @@ public class LifeControl extends JPanel implements ActionListener, SpotListener 
 		
 		JButton reset_button = new JButton("Restart");
 		reset_button.addActionListener(this);
+		reset_button.addActionListener(manager);
 		reset_button.setActionCommand("reset");
 		button_panel.add(reset_button, BorderLayout.EAST);
 		
@@ -65,7 +76,7 @@ public class LifeControl extends JPanel implements ActionListener, SpotListener 
 		random_button.setActionCommand("random");
 		button_panel.add(random_button, BorderLayout.CENTER);
 		
-		JButton start_button = new JButton("Start");
+		JButton start_button = new JButton("Advance");
 		start_button.addActionListener(this);
 		button_panel.add(start_button, BorderLayout.WEST);
 
@@ -315,16 +326,33 @@ public class LifeControl extends JPanel implements ActionListener, SpotListener 
 		}
 	}
 	
+	public void autoToggle() {
+		if (auto == false) {
+			auto = true;
+		} else {
+			auto = false;
+		}
+		updateMessage();
+	}
+	
 	public void torusToggle() {
 		if (torusMode == false) {
 			torusMode = true;
 		} else {
 			torusMode = false;
 		}
-		if (torusMode == true) {
-			_message.setText("Click to set up. Torus Mode is on.");
+		updateMessage();
+	}
+	
+	private void updateMessage() {
+		if (torusMode && auto) {
+			_message.setText("Click to set up. Torus Mode is on and Auto Mode is on.");
+		} else if (torusMode && !auto) {
+			_message.setText("Click to set up. Torus Mode is on and Auto Mode is off.");
+		} else if (!torusMode && auto) {
+			_message.setText("Click to set up. Torus Mode is off and Auto Mode is on.");
 		} else {
-			_message.setText("Click to set up. Torus Mode is off.");
+			_message.setText("Click to set up. Torus Mode is off and Auto Mode is off.");
 		}
 	}
 
@@ -337,11 +365,11 @@ public class LifeControl extends JPanel implements ActionListener, SpotListener 
 		 } else if ("torus".equals(e.getActionCommand())) {
 			 torusToggle();
 		 } else {
-			 startGame();
+			 advanceGame();
 		 }
 		/* Handles reset game button. Simply reset the game. */
 	}
-	private void startGame() {
+	void advanceGame() {
 		determineSpotStatus();
 		implimentSpotStatus();
 	}
@@ -356,10 +384,6 @@ public class LifeControl extends JPanel implements ActionListener, SpotListener 
 			s.setBackground(Color.WHITE);
 			s.setSpotAlive(false);
 		}
-		if (torusMode == true) {
-			_message.setText("Click to set up. Torus Mode is on.");
-		} else {
-			_message.setText("Click to set up. Torus Mode is off.");
-		}
+		updateMessage();
 	}
 }
