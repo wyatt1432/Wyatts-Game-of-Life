@@ -1,7 +1,4 @@
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -24,7 +21,7 @@ public class LifeView {
 		 * of content panel.
 		 */
 		
-		String heightString = JOptionPane.showInputDialog("What would you like the size of the filed to be? (Setting this over 25 will be very intensive)");
+		String heightString = JOptionPane.showInputDialog("What would you like the size of the field to be? (Setting this over 25 will be very intensive.)");
 		int height = Integer.parseInt(heightString);
 		if (height < 10) {
 			height = 10;
@@ -40,20 +37,21 @@ public class LifeView {
 		int birthMinimum = 3;
 		int birthMaximum = 3;
 		long time = 500;
+		String specialString = "K";
 		while (done == false) {
 			String defaultString = JOptionPane.showInputDialog("Would you like to use the default settings? (Type 'Yes' or 'No')");
-			System.out.println(defaultString);
 			if (defaultString.contentEquals("No")) {
-				String survivalMinimumString = JOptionPane.showInputDialog("What would you like the survival minimum to be?");
+				String survivalMinimumString = JOptionPane.showInputDialog("What would you like the survival minimum to be? (Default 2)");
 				survivalMinimum = Integer.parseInt(survivalMinimumString);
-				String survivalMaximumString = JOptionPane.showInputDialog("What would you like the survival maximum to be?");
+				String survivalMaximumString = JOptionPane.showInputDialog("What would you like the survival maximum to be? (Default 3)");
 				survivalMaximum = Integer.parseInt(survivalMaximumString);
-				String birthMinimumString = JOptionPane.showInputDialog("What would you like the birth minimum to be?");
+				String birthMinimumString = JOptionPane.showInputDialog("What would you like the birth minimum to be? (Default 3)");
 				birthMinimum = Integer.parseInt(birthMinimumString);
-				String birthMaximumString = JOptionPane.showInputDialog("What would you like the birth maximum to be?");
+				String birthMaximumString = JOptionPane.showInputDialog("What would you like the birth maximum to be? (Default 3)");
 				birthMaximum = Integer.parseInt(birthMaximumString);
-				String timeString = JOptionPane.showInputDialog("What would you like the auto mode update time between frames in miliseconds to be?");
+				String timeString = JOptionPane.showInputDialog("What would you like the auto mode update time between frames in miliseconds to be? (Default 500)");
 				time = Integer.parseInt(timeString);
+				specialString = JOptionPane.showInputDialog("Would you like a special message? (Type 'Yes' or 'No')");
 				done = true;
 			} else if (defaultString.contentEquals("Yes")) {
 				done = true;
@@ -66,8 +64,13 @@ public class LifeView {
 		if (time > 1000) {
 			time = 1000;
 		}
-		
-		LifeControl ttt = new LifeControl(time, height, width, survivalMinimum, survivalMaximum, birthMinimum, birthMaximum);
+		LifeControl ttt;
+		if (specialString.contentEquals("Yes")) {
+			ttt = new LifeControl(time, 35, 35, survivalMinimum, survivalMaximum, birthMinimum, birthMaximum);
+			ttt.specialMessage();
+		} else {
+			ttt = new LifeControl(time, height, width, survivalMinimum, survivalMaximum, birthMinimum, birthMaximum);
+		}
 		top_panel.add(ttt, BorderLayout.CENTER);
 
 

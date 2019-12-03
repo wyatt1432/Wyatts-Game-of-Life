@@ -9,9 +9,7 @@ import javax.swing.JPanel;
 
 public class LifeControl extends JPanel implements ActionListener, SpotListener {
 	
-/* Enum to identify player. */
-	
-	private enum Player {BLACK, WHITE};
+	/* Enum to identify player. */
 	private JSpotBoard _board;		/* SpotBoard playing area. */
 	private JLabel _message;		/* Label for messages. */
 	private boolean _game_won;		/* Indicates if games was been won already.*/
@@ -261,6 +259,59 @@ public class LifeControl extends JPanel implements ActionListener, SpotListener 
 			_message.setText("Click to set up. Torus Mode is off and Auto Mode is on.");
 		} else {
 			_message.setText("Click to set up. Torus Mode is off and Auto Mode is off.");
+		}
+	}
+	
+	public void specialMessage() {
+		for (Spot s : _board) {
+			if (s.getSpotY() == 1 && (s.getSpotX() == 2 || s.getSpotX() == 3 || s.getSpotX() == 7 || s.getSpotX() == 8 || s.getSpotX() == 11 || s.getSpotX() == 15 || s.getSpotX() == 17 || s.getSpotX() == 18 || s.getSpotX() == 19 || s.getSpotX() == 24 || s.getSpotX() == 26 || s.getSpotX() == 29 || s.getSpotX() == 30 || s.getSpotX() == 33)) {
+				s.setSpotColor(Color.BLACK);
+				s.setBackground(Color.BLACK);
+			}
+			if (s.getSpotY() == 2 && (s.getSpotX() == 1 || s.getSpotX() == 4 || s.getSpotX() == 6 || s.getSpotX() == 9 || s.getSpotX() == 11 || s.getSpotX() == 11 || s.getSpotX() == 12 || s.getSpotX() == 14 || s.getSpotX() == 15 || s.getSpotX() == 17 || s.getSpotX() == 20 || s.getSpotX() == 24 || s.getSpotX() == 26 || s.getSpotX() == 28 || s.getSpotX() == 31 || s.getSpotX() == 33)) {
+				s.setSpotColor(Color.BLACK);
+				s.setBackground(Color.BLACK);
+			}
+			if (s.getSpotY() == 3 && (s.getSpotX() == 1 || s.getSpotX() == 6 || s.getSpotX() == 9 || s.getSpotX() == 11 || s.getSpotX() == 13 || s.getSpotX() == 15 || s.getSpotX() == 17 || s.getSpotX() == 20 || s.getSpotX() == 24 || s.getSpotX() == 25 || s.getSpotX() == 26 || s.getSpotX() == 28 || s.getSpotX() == 31 || s.getSpotX() == 33)) {
+				s.setSpotColor(Color.BLACK);
+				s.setBackground(Color.BLACK);
+			}
+			if (s.getSpotY() == 4 && (s.getSpotX() == 1 || s.getSpotX() == 6 || s.getSpotX() == 9 || s.getSpotX() == 11 || s.getSpotX() == 15 || s.getSpotX() == 17 || s.getSpotX() == 18 || s.getSpotX() == 19 || s.getSpotX() == 26 || s.getSpotX() == 28 || s.getSpotX() == 31 || s.getSpotX() == 33)) {
+				s.setSpotColor(Color.BLACK);
+				s.setBackground(Color.BLACK);
+			}
+			if (s.getSpotY() == 5 && (s.getSpotX() == 1 || s.getSpotX() == 4 || s.getSpotX() == 6 || s.getSpotX() == 9 || s.getSpotX() == 11 || s.getSpotX() == 15 || s.getSpotX() == 17 || s.getSpotX() == 26 || s.getSpotX() == 28 || s.getSpotX() == 31 || s.getSpotX() == 33)) {
+				s.setSpotColor(Color.BLACK);
+				s.setBackground(Color.BLACK);
+			}
+			if (s.getSpotY() == 6 && (s.getSpotX() == 2 || s.getSpotX() == 3 || s.getSpotX() == 7 || s.getSpotX() == 8 || s.getSpotX() == 11 || s.getSpotX() == 15 || s.getSpotX() == 17 || s.getSpotX() == 26 || s.getSpotX() == 29 || s.getSpotX() == 30 || s.getSpotX() == 33)) {
+				s.setSpotColor(Color.BLACK);
+				s.setBackground(Color.BLACK);
+			}
+			if ((s.getSpotX() == 12 || s.getSpotX() == 22) && s.getSpotY() >= 11 && s.getSpotY() <= 14) {
+				s.setSpotColor(Color.RED);
+				s.setBackground(Color.RED);
+			}
+			if ((s.getSpotX() == 13 || s.getSpotX() == 21) && s.getSpotY() >= 10 && s.getSpotY() <= 15) {
+				s.setSpotColor(Color.RED);
+				s.setBackground(Color.RED);
+			}
+			if ((s.getSpotX() == 14 || s.getSpotX() == 20)  && s.getSpotY() >= 9 && s.getSpotY() <= 16) {
+				s.setSpotColor(Color.RED);
+				s.setBackground(Color.RED);
+			}
+			if ((s.getSpotX() == 15 || s.getSpotX() == 19)  && s.getSpotY() >= 9 && s.getSpotY() <= 17) {
+				s.setSpotColor(Color.RED);
+				s.setBackground(Color.RED);
+			}
+			if ((s.getSpotX() == 16 || s.getSpotX() == 18)  && s.getSpotY() >= 10 && s.getSpotY() <= 18) {
+				s.setSpotColor(Color.RED);
+				s.setBackground(Color.RED);
+			}
+			if (s.getSpotX() == 17 && s.getSpotY() >= 11 && s.getSpotY() <= 19) {
+				s.setSpotColor(Color.RED);
+				s.setBackground(Color.RED);
+			}
 		}
 	}
 
