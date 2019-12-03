@@ -24,7 +24,7 @@ public class LifeView {
 		 * of content panel.
 		 */
 		
-		String heightString = JOptionPane.showInputDialog("What would you like your height and width to be?");
+		String heightString = JOptionPane.showInputDialog("What would you like the size of the filed to be? (Setting this over 25 will be very intensive)");
 		int height = Integer.parseInt(heightString);
 		if (height < 10) {
 			height = 10;

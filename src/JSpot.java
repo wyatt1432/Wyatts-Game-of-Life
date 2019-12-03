@@ -30,8 +30,8 @@ import javax.swing.BorderFactory;
 
 public class JSpot extends JPanel implements MouseListener, Spot {
 
-	private Color _spot_color;
-	private Color _highlight_color;
+	private Color _spot_color = Color.WHITE;
+	private Color _highlight_color = Color.YELLOW;
 
 	private boolean _is_empty;
 	private boolean _is_highlighted;
@@ -43,14 +43,10 @@ public class JSpot extends JPanel implements MouseListener, Spot {
 
 	private List<SpotListener> _spot_listeners;
 
-	public JSpot(Color background, Color spot_color, Color highlight, 
-			SpotBoard board, int x, int y) {
+	public JSpot(SpotBoard board, int x, int y) {
 
 		// Background color inherited from JPanel
-		setBackground(background);
-
-		_spot_color = spot_color;
-		_highlight_color = highlight;
+		setBackground(Color.WHITE);
 		_is_empty = true;
 		_is_highlighted = false;
 		_board = board;

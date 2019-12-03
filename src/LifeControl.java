@@ -94,18 +94,33 @@ public class LifeControl extends JPanel implements ActionListener, SpotListener 
 		resetGame();
 	}
 	
-	public Spot smartFind(int x, int y) {
-		if (x > width - 1) {
-			x = x - (width);
-		}
-		if (x < 0) {
-			x = x + (width);
-		}
-		if (y > height - 1) {
-			y = y - (height);
-		}
-		if (y < 0) {
-			y = y + (height);
+	public Spot smartFind(int x, int y, Spot s) {
+		if (torusMode) {
+			if (x > width - 1) {
+				x = x - (width);
+			}
+			if (x < 0) {
+				x = x + (width);
+			}
+			if (y > height - 1) {
+				y = y - (height);
+			}
+			if (y < 0) {
+				y = y + (height);
+			}
+		} else {
+			if (x > width - 1) {
+				return s;
+			}
+			if (x < 0) {
+				return s;
+			}
+			if (y > height - 1) {
+				return s;
+			}
+			if (y < 0) {
+				return s;
+			}
 		}
 		return _board.getSpotAt(x, y);
 	}
@@ -120,118 +135,13 @@ public class LifeControl extends JPanel implements ActionListener, SpotListener 
 		}
 		for (Spot s : _board) {
 			int totalAlive = 0;
-			boolean awayFromTop = false;
-			boolean awayFromBottom = false;
-			boolean awayFromLeft = false;
-			boolean awayFromRight = false;
-			if (s.getSpotY() > 0) {
-				awayFromTop = true;
-			} else {
-				System.out.println(s.getCoordString() + "is too close to the top");
-			}
-			if (s.getSpotY() < (height - 1)) {
-				awayFromBottom = true;
-			} else {
-				System.out.println(s.getCoordString() + "is too close to the bottom");
-			}
-			if (s.getSpotX() > 0) {
-				awayFromLeft = true;
-			} else {
-				System.out.println(s.getCoordString() + "is too close to the left");
-			}
-			if (s.getSpotX() < (width - 1)) {
-				awayFromRight = true;
-			} else {
-				System.out.println(s.getCoordString() + "is too close to the right");
-			}
-			if (awayFromTop) {
-				if(_board.getSpotAt(s.getSpotX(), s.getSpotY() - 1).isSpotAlive()) {
-					totalAlive++;
-					System.out.println(s.getCoordString() + "got a point from above");
-				}
-			} else if (torusMode) {
-				if(smartFind(s.getSpotX(), s.getSpotY() - 1).isSpotAlive()) {
-					totalAlive++;
-					System.out.println(s.getCoordString() + "got a point from above");
-				}
-			}
-			if (awayFromBottom) {
-				if(_board.getSpotAt(s.getSpotX(), s.getSpotY() + 1).isSpotAlive()) {
-					totalAlive++;
-					System.out.println(s.getCoordString() + "got a point from below");
-				}
-			} else if (torusMode) {
-				if(smartFind(s.getSpotX(), s.getSpotY() + 1).isSpotAlive()) {
-					totalAlive++;
-					System.out.println(s.getCoordString() + "got a point from below");
-				}
-			}
-			if (awayFromLeft) {
-				if(_board.getSpotAt(s.getSpotX() - 1, s.getSpotY()).isSpotAlive()) {
-					totalAlive++;
-					System.out.println(s.getCoordString() + "got a point from left");
-				}
-			} else if (torusMode) {
-				if(smartFind(s.getSpotX() - 1, s.getSpotY()).isSpotAlive()) {
-					totalAlive++;
-					System.out.println(s.getCoordString() + "got a point from left");
-				}
-			}
-			if (awayFromRight) {
-				if(_board.getSpotAt(s.getSpotX() + 1, s.getSpotY()).isSpotAlive()) {
-					totalAlive++;
-					System.out.println(s.getCoordString() + "got a point from right");
-				}
-			} else if (torusMode) {
-				System.out.println(s.getCoordString() + " triggered right torus mode");
-				System.out.println(s.getCoordString() + " checked " + smartFind(s.getSpotX() + 1, s.getSpotY()).getCoordString());
-				if(smartFind(s.getSpotX() + 1, s.getSpotY()).isSpotAlive()) {
-					totalAlive++;
-					System.out.println(s.getCoordString() + "got a point from right");
-				}
-			}
-			if (awayFromTop && awayFromLeft) {
-				if(_board.getSpotAt(s.getSpotX() - 1, s.getSpotY() - 1).isSpotAlive()) {
-					totalAlive++;
-					System.out.println(s.getCoordString() + "got a point from up left");
-				}
-			} else if (torusMode) {
-				if(smartFind(s.getSpotX() - 1, s.getSpotY() - 1).isSpotAlive()) {
-					totalAlive++;
-					System.out.println(s.getCoordString() + "got a point from up left");
-				}
-			}
-			if (awayFromTop && awayFromRight) {
-				if(_board.getSpotAt(s.getSpotX() + 1, s.getSpotY() - 1).isSpotAlive()) {
-					totalAlive++;
-					System.out.println(s.getCoordString() + "got a point from up right");
-				}
-			} else if (torusMode) {
-				if(smartFind(s.getSpotX() + 1, s.getSpotY() - 1).isSpotAlive()) {
-					totalAlive++;
-					System.out.println(s.getCoordString() + "got a point from up right");
-				}
-			}
-			if (awayFromBottom && awayFromLeft) {
-				if(_board.getSpotAt(s.getSpotX() - 1, s.getSpotY() + 1).isSpotAlive()) {
-					totalAlive++;
-					System.out.println(s.getCoordString() + "got a point from down left");
-				}
-			} else if (torusMode) {
-				if(smartFind(s.getSpotX() - 1, s.getSpotY() + 1).isSpotAlive()) {
-					totalAlive++;
-					System.out.println(s.getCoordString() + "got a point from down left");
-				}
-			}
-			if (awayFromBottom && awayFromRight) {
-				if(_board.getSpotAt(s.getSpotX() + 1, s.getSpotY() + 1).isSpotAlive()) {
-					totalAlive++;
-					System.out.println(s.getCoordString() + "got a point from down right");
-				}
-			} else if (torusMode) {
-				if(smartFind(s.getSpotX() + 1, s.getSpotY() + 1).isSpotAlive()) {
-					totalAlive++;
-					System.out.println(s.getCoordString() + "got a point from down right");
+			for (int i=-1; i<=1; i++) {
+				for (int j=-1; j<=1; j++) {
+					Spot spotReturned;
+					spotReturned = smartFind(s.getSpotX() + i, s.getSpotY() + j, s);
+					if (spotReturned != s && spotReturned.isSpotAlive()) {
+						totalAlive++;
+					}
 				}
 			}
 			s.setSpotAliveNeighbors(totalAlive);
@@ -243,12 +153,10 @@ public class LifeControl extends JPanel implements ActionListener, SpotListener 
 			if (s.isSpotAlive()) {
 				if(s.getSpotAliveNeighbors() < surviveMin || s.getSpotAliveNeighbors() > surviveMax) {
 					s.setSpotAlive(false);
-					System.out.println(s.getCoordString() + " was killed because it had " + s.getSpotAliveNeighbors());
 				}
 			} else {
 				if (s.getSpotAliveNeighbors() >= birthMin && s.getSpotAliveNeighbors() <= birthMax) {
 					s.setSpotAlive(true);
-					System.out.println(s.getCoordString() + " was born because it had " + s.getSpotAliveNeighbors());
 				}
 			}
 			if (s.isSpotAlive() == false) {
