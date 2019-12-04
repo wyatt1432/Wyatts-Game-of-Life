@@ -38,8 +38,6 @@ public class JSpot extends JPanel implements MouseListener, Spot {
 	private SpotBoard _board;
 	private int _x;
 	private int _y;
-	private int aliveNeighbors;
-	private boolean alive;
 
 	private List<SpotListener> _spot_listeners;
 
@@ -68,22 +66,6 @@ public class JSpot extends JPanel implements MouseListener, Spot {
 	@Override
 	public int getSpotY() {
 		return _y;
-	}
-	
-	public int getSpotAliveNeighbors() {
-		return aliveNeighbors;
-	}
-	
-	public void setSpotAliveNeighbors(int alive) {
-		this.aliveNeighbors = alive;
-	}
-	
-	public boolean isSpotAlive() {
-		return alive;
-	}
-	
-	public void setSpotAlive(boolean alive) {
-		this.alive = alive;
 	}
 
 	@Override

@@ -3,7 +3,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class LifeView {
+public class LifeBuilder {
 	
 	public static void main(String[] args) {
 		/* Create top level window. */

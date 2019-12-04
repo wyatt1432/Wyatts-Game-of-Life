@@ -69,10 +69,6 @@ public interface Spot {
 	Color getSpotColor();
 	void setHighlight(Color c);
 	Color getHighlight();
-	int getSpotAliveNeighbors();	
-	void setSpotAliveNeighbors(int alive);
-	boolean isSpotAlive();
-	void setSpotAlive(boolean alive);
 
 	void addSpotListener(SpotListener l);
 	void removeSpotListener(SpotListener l);

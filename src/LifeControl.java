@@ -11,6 +11,7 @@ public class LifeControl extends JPanel implements ActionListener, SpotListener 
 	
 	/* Enum to identify player. */
 	private JSpotBoard _board;		/* SpotBoard playing area. */
+	private BoardModel boardModel;
 	private JLabel _message;		/* Label for messages. */
 	private boolean _game_won;		/* Indicates if games was been won already.*/
 	private int height;
@@ -27,6 +28,7 @@ public class LifeControl extends JPanel implements ActionListener, SpotListener 
 		/* Create SpotBoard and message label. */
 		
 		_board = new JSpotBoard(height,width);
+		boardModel = new BoardModel(height, width);
 		_message = new JLabel();
 		this.height = height;
 		this.width = width;
@@ -92,18 +94,16 @@ public class LifeControl extends JPanel implements ActionListener, SpotListener 
 		resetGame();
 	}
 	
-	public Spot smartFind(int x, int y, Spot s) {
+	public SpotModel smartFind(int x, int y, SpotModel s) {
 		if (torusMode) {
 			if (x > width - 1) {
 				x = x - (width);
-			}
-			if (x < 0) {
+			} else if (x < 0) {
 				x = x + (width);
 			}
 			if (y > height - 1) {
 				y = y - (height);
-			}
-			if (y < 0) {
+			} else if (y < 0) {
 				y = y + (height);
 			}
 		} else {
@@ -120,25 +120,18 @@ public class LifeControl extends JPanel implements ActionListener, SpotListener 
 				return s;
 			}
 		}
-		return _board.getSpotAt(x, y);
+		return boardModel.getSpotAt(x, y);
 	}
 	
 	public void determineSpotStatus() {
-		for (Spot s : _board) {
-			if (s.getSpotColor() == Color.BLACK) {
-				s.setSpotAlive(true);
-			} else {
-				s.setSpotAlive(false);
-			}
-		}
-		for (Spot s : _board) {
+		for (SpotModel s : boardModel) {
 			s.setSpotAliveNeighbors(0);
 		}
-		for (Spot s : _board) {
+		for (SpotModel s : boardModel) {
 			if (s.isSpotAlive()) {
 				for (int i=-1; i<=1; i++) {
 					for (int j=-1; j<=1; j++) {
-						Spot spotReturned;
+						SpotModel spotReturned;
 						spotReturned = smartFind(s.getSpotX() + i, s.getSpotY() + j, s);
 						if (spotReturned != s) {
 							spotReturned.setSpotAliveNeighbors((spotReturned.getSpotAliveNeighbors() + 1));
@@ -150,18 +143,19 @@ public class LifeControl extends JPanel implements ActionListener, SpotListener 
 	}
 	
 	public void implimentSpotStatus() {
-		for (Spot s : _board) {
+		for (SpotModel s : boardModel) {
+			Spot spotView = _board.getSpotAt(s.getSpotX(), s.getSpotY());
 			if (s.isSpotAlive()) {
 				if(s.getSpotAliveNeighbors() < surviveMin || s.getSpotAliveNeighbors() > surviveMax) {
 					s.setSpotAlive(false);
-					s.setBackground(Color.WHITE);
-					s.setSpotColor(Color.WHITE);
+					spotView.setBackground(Color.WHITE);
+					spotView.setSpotColor(Color.WHITE);
 				}
 			} else {
 				if (s.getSpotAliveNeighbors() >= birthMin && s.getSpotAliveNeighbors() <= birthMax) {
 					s.setSpotAlive(true);
-					s.setBackground(Color.BLACK);
-					s.setSpotColor(Color.BLACK);
+					spotView.setBackground(Color.BLACK);
+					spotView.setSpotColor(Color.BLACK);
 				}
 			}
 		}
@@ -179,19 +173,20 @@ public class LifeControl extends JPanel implements ActionListener, SpotListener 
 	}
 	
 	public void randomizeGame() {
-		for (Spot s : _board) {
+		for (SpotModel s : boardModel) {
 			int randomInt = (int) ((Math.random()*2));
 			if (randomInt == 0) {
 				s.setSpotAlive(true);
 			} else {
 				s.setSpotAlive(false);
 			}
+			Spot spotView = _board.getSpotAt(s.getSpotX(), s.getSpotY());
 			if (s.isSpotAlive() == false) {
-				s.setBackground(Color.WHITE);
-				s.setSpotColor(Color.WHITE);
+				spotView.setBackground(Color.WHITE);
+				spotView.setSpotColor(Color.WHITE);
 			} else {
-				s.setBackground(Color.BLACK);
-				s.setSpotColor(Color.BLACK);
+				spotView.setBackground(Color.BLACK);
+				spotView.setSpotColor(Color.BLACK);
 			}
 		}
 	}
@@ -340,6 +335,8 @@ public class LifeControl extends JPanel implements ActionListener, SpotListener 
 			s.unhighlightSpot();
 			s.setSpotColor(Color.WHITE);
 			s.setBackground(Color.WHITE);
+		}
+		for (SpotModel s : boardModel) {
 			s.setSpotAlive(false);
 		}
 		updateMessage();

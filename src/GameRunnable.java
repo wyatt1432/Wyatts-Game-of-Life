@@ -14,14 +14,10 @@ public class GameRunnable implements Runnable {
     public synchronized void doStop() {
         this.doStop = true;
     }
-
-    private synchronized boolean keepRunning() {
-        return this.doStop == false;
-    }
 	
 	@Override
 	public void run() {
-		while(keepRunning()) {
+		while(!doStop) {
 			game.advanceGame();
 			try {
 			    Thread.sleep(time);
