@@ -21,7 +21,7 @@ public class LifeBuilder {
 		 * of content panel.
 		 */
 		
-		String heightString = JOptionPane.showInputDialog("What would you like the size of the field to be? (Setting this over 25 will be very intensive.)");
+		String heightString = JOptionPane.showInputDialog("What would you like the size of the field to be? (Setting this over 75 will be very intensive.)");
 		int height = Integer.parseInt(heightString);
 		if (height < 10) {
 			height = 10;
@@ -40,7 +40,7 @@ public class LifeBuilder {
 		String specialString = "K";
 		while (done == false) {
 			String defaultString = JOptionPane.showInputDialog("Would you like to use the default settings? (Type 'Yes' or 'No')");
-			if (defaultString.contentEquals("No")) {
+			if (defaultString.contentEquals("No" ) || defaultString.contentEquals("no" )) {
 				String survivalMinimumString = JOptionPane.showInputDialog("What would you like the survival minimum to be? (Default 2)");
 				survivalMinimum = Integer.parseInt(survivalMinimumString);
 				String survivalMaximumString = JOptionPane.showInputDialog("What would you like the survival maximum to be? (Default 3)");
@@ -53,7 +53,7 @@ public class LifeBuilder {
 				time = Integer.parseInt(timeString);
 				specialString = JOptionPane.showInputDialog("Would you like a special message? (Type 'Yes' or 'No')");
 				done = true;
-			} else if (defaultString.contentEquals("Yes")) {
+			} else if (defaultString.contentEquals("Yes") || defaultString.contentEquals("yes")) {
 				done = true;
 			}
 		}
@@ -65,7 +65,7 @@ public class LifeBuilder {
 			time = 1000;
 		}
 		LifeControl ttt;
-		if (specialString.contentEquals("Yes")) {
+		if (specialString.contentEquals("Yes") || specialString.contentEquals("yes")) {
 			ttt = new LifeControl(time, 35, 35, survivalMinimum, survivalMaximum, birthMinimum, birthMaximum);
 			ttt.specialMessage();
 		} else {
